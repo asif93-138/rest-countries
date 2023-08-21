@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API</title>
+<style>
+#name {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 20px;
+}
+#name div {
+  text-align: center;
+  border: 1px solid black;
+  padding-bottom: 10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h1 style="text-align: center;">All Countries</h1>
+</header>
+
+<main>
+<section style="text-align:center;" id="details">
+</section>
+
+<section id="name">
+</section>
+
+</main>
+
+<footer>
+</footer>
+
+<script>
+fetch('https://restcountries.com/v3.1/all')
+      .then(response => response.json())
+      .then(json => dD(json))
+function det(data) {
+fetch(`https://restcountries.com/v3.1/alpha/${data}`)
+      .then(response => response.json())
+      .then(json => sD(json))
+}
+function sD(data) {
+console.log();
+var txt = `<h2>Name: ${data[0].name.official}</h2><img src="${data[0].flags.png}"><h4>Flag</h4>`;
+document.getElementById("details").innerHTML = txt;
+}
+function dD(data) {
+
+var txt = "";
+for (var i = 0; i < data.length; i++) {
+var cap = data[i].capital ? data[i].capital[0]:"missing";
+// console.log(data[i].cca2);
+txt = txt + `<div><h3>Name: ${data[i].name.common}</h3><p>Capital: ${cap}</p><button onclick="det('${data[i].cca2}')">Details</button></div>`;
+} 
+document.getElementById("name").innerHTML = txt;
+}
+</script>
+
+</body>
+
+</html>
