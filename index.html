@@ -19,6 +19,7 @@
   border: 1px solid black;
   padding-bottom: 10px;
 }
+@media screen and (max-width: 600px) {#name {display:block;} #name div {margin:10px;}}
 </style>
 
 </head>
@@ -32,6 +33,19 @@
 <main>
 <section style="text-align:center;" id="details">
 </section>
+<section style="text-align:center;margin:20px;">
+  <label for="region">Select a region: </label>
+  <select id="region" name="region">
+    <option value="asia">Asia</option>
+    <option value="africa">Africa</option>
+    <option value="europe">Europe</option>
+    <option value="north america">North America</option>
+    <option value="south america">South America</option>
+    <option value="oceania">Oceania</option>
+    
+  </select>
+  <button onclick="sR()" type="button">Submit</button>
+</section>
 
 <section id="name">
 </section>
@@ -42,6 +56,13 @@
 </footer>
 
 <script>
+function sR() {
+document.getElementById("details").innerHTML = "";
+console.log();
+fetch(`https://restcountries.com/v3.1/region/${document.getElementById("region").value}`)
+      .then(response => response.json())
+      .then(json => dD(json))
+}
 fetch('https://restcountries.com/v3.1/all')
       .then(response => response.json())
       .then(json => dD(json))
@@ -52,7 +73,7 @@ fetch(`https://restcountries.com/v3.1/alpha/${data}`)
 }
 function sD(data) {
 console.log();
-var txt = `<h2>Name: ${data[0].name.official}</h2><img src="${data[0].flags.png}"><h4>Flag</h4>`;
+var txt = `<h2>Name: ${data[0].name.official}</h2><p>Capital: ${data[0].capital[0]}</p><img src="${data[0].flags.png}"><h4>Flag</h4>`;
 document.getElementById("details").innerHTML = txt;
 }
 function dD(data) {
